@@ -6,19 +6,9 @@ from ._internal import Report
 def build_report(prep: PreprocessedData) -> Report:
     return Report(
         popularity=find_three_most_popular_make_and_models(prep.models, prep.policies),
-        volume=find_average_car_volume_by_age(prep.models, prep.policies),
         safety=find_safest_models(prep.models),
+        volume=find_average_car_volume_by_age(prep.models, prep.policies),
     )
-
-
-def find_safest_models[T: (pl.DataFrame, pl.LazyFrame)](models: T) -> T:
-    """Among all models, find the safest ones as measured by the number of safety features.
-
-    Returns:
-        A data frame with five rows and three columns (model, segment, safety_score).
-    """
-    # TODO: Implement this function
-    raise NotImplementedError
 
 
 def find_three_most_popular_make_and_models[T: (pl.DataFrame, pl.LazyFrame)](
@@ -28,6 +18,16 @@ def find_three_most_popular_make_and_models[T: (pl.DataFrame, pl.LazyFrame)](
 
     Returns:
         A dataframe with three rows and three columns (make, model, count).
+    """
+    # TODO: Implement this function
+    raise NotImplementedError
+
+
+def find_safest_models[T: (pl.DataFrame, pl.LazyFrame)](models: T) -> T:
+    """Among all models, find the safest ones as measured by the number of safety features.
+
+    Returns:
+        A data frame with five rows and three columns (model, segment, safety_score).
     """
     # TODO: Implement this function
     raise NotImplementedError
