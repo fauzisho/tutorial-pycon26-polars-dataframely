@@ -1,0 +1,6 @@
+{
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "mypy-type-checker.interpreter": [
+    "${workspaceFolder}/.pixi/envs/default/bin/python"
+  ]
+}

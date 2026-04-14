@@ -1,0 +1,16 @@
+[project]
+name = "tutorial-pycon26-pldy"
+version = "0.1.0"
+description = "PyCon 2026 tutorial on data validation with Polars and dataframely"
+authors = [
+    { name = "Andreas Albert", email = "andreas.albert@quantco.com" },
+    { name = "Oliver Borchert", email = "oliver.borchert@quantco.com" },
+]
+requires-python = ">=3.14"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["pipeline"]
