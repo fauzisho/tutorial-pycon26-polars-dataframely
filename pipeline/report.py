@@ -21,7 +21,7 @@ def find_three_most_popular_make_and_models[T: (pl.DataFrame, pl.LazyFrame)](
         A dataframe with three rows and three columns (make, model, count).
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    return pl.DataFrame()
 
 
 def find_safest_models[T: (pl.DataFrame, pl.LazyFrame)](models: T) -> T:
@@ -31,7 +31,7 @@ def find_safest_models[T: (pl.DataFrame, pl.LazyFrame)](models: T) -> T:
         A data frame with five rows and three columns (model, segment, safety_score).
     """
     # TODO: Implement this function
-    raise NotImplementedError
+    return pl.DataFrame()
 
 
 def find_average_car_volume_by_age[T: (pl.DataFrame, pl.LazyFrame)](
@@ -49,4 +49,4 @@ def find_average_car_volume_by_age[T: (pl.DataFrame, pl.LazyFrame)](
     # TODO: Implement this function.
     # Tip: Pay attention to numeric data types when performing calculations
     # Tip: Consider https://docs.pola.rs/api/python/stable/reference/expressions/api/polars.Expr.cut.html
-    raise NotImplementedError
+    return pl.DataFrame()
