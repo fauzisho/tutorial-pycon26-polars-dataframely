@@ -9,7 +9,7 @@ platforms = ["osx-arm64", "linux-64", "linux-aarch64", "win-64"]
 version = "0.1.0"
 
 [tasks]
-postinstall = "pip install --no-build-isolation --no-deps --disable-pip-version-check -e . && dot -c"
+postinstall = "pip install --no-build-isolation --no-deps --disable-pip-version-check -e ."
 hello-world = "python -c 'import dataframely as dy; import polars as pl; print(\"Hello, World!\"); print(f\"polars version: {pl.__version__}\"); print(f\"dataframely version: {dy.__version__}\"); '"
 test = "pytest"
 
@@ -26,5 +26,3 @@ ruff = "*"
 isort = "*"
 mypy = "*"
 pre-commit = "*"
-graphviz = "*"
-pydot = "*"
