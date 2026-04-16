@@ -1,4 +1,5 @@
 import polars as pl
+import polars.selectors as cs
 
 from ._internal import Report
 from .data import PreprocessedData
@@ -20,8 +21,14 @@ def find_three_most_popular_make_and_models[T: (pl.DataFrame, pl.LazyFrame)](
     Returns:
         A dataframe with three rows and three columns (make, model, count).
     """
-    # TODO: Implement this function
-    return pl.DataFrame() if isinstance(models, pl.DataFrame) else pl.LazyFrame()
+    return (
+        policies.join(models.select("model", "make"), on="model", how="inner")
+        .group_by("make", "model")
+        .len()
+        .sort("len", descending=True)
+        .head(3)
+        .rename({"len": "count"})
+    )
 
 
 def find_safest_models[T: (pl.DataFrame, pl.LazyFrame)](models: T) -> T:
@@ -30,8 +37,14 @@ def find_safest_models[T: (pl.DataFrame, pl.LazyFrame)](models: T) -> T:
     Returns:
         A data frame with five rows and three columns (model, segment, safety_score).
     """
-    # TODO: Implement this function
-    return pl.DataFrame() if isinstance(models, pl.DataFrame) else pl.LazyFrame()
+    safety_score = pl.sum_horizontal(cs.starts_with("is_").cast(pl.UInt8)) + pl.col(
+        "airbags"
+    ).cast(pl.UInt16)
+    return (
+        models.select("model", "segment", safety_score=safety_score)
+        .sort("safety_score", descending=True)
+        .head(5)
+    )
 
 
 def find_average_car_volume_by_age[T: (pl.DataFrame, pl.LazyFrame)](
@@ -46,7 +59,19 @@ def find_average_car_volume_by_age[T: (pl.DataFrame, pl.LazyFrame)](
         A data frame with three columns (age block, mean volume in cubic meters,
         relative change of mean volume relative to the previous age block in percent).
     """
-    # TODO: Implement this function.
-    # Tip: Pay attention to numeric data types when performing calculations
-    # Tip: Consider https://docs.pola.rs/api/python/stable/reference/expressions/api/polars.Expr.cut.html
-    return pl.DataFrame() if isinstance(models, pl.DataFrame) else pl.LazyFrame()
+    dims = models.select("model", "length", "width", "height")
+    volume_m3 = (
+        pl.col("length").cast(pl.Float64)
+        * pl.col("width").cast(pl.Float64)
+        * pl.col("height").cast(pl.Float64)
+        * 1e-9
+    )
+    age_bins = [10.0, 20.0, 30.0, 40.0, 50.0, 60.0]
+    joined = policies.join(dims, on="model", how="inner").with_columns(
+        volume=volume_m3,
+        age_of_car=pl.col("age_of_car").cut(age_bins),
+    )
+    by_age = joined.group_by("age_of_car").agg(pl.col("volume").mean())
+    return by_age.sort("age_of_car").with_columns(
+        change=(100 * (pl.col("volume") / pl.col("volume").shift(1) - 1)),
+    )
